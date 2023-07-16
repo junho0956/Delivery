@@ -1,52 +1,64 @@
-import React, {useCallback} from 'react';
-import {NavigationContainer, ParamListBase} from '@react-navigation/native';
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
-import {Text, TouchableHighlight, View} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useState} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import Orders from './src/pages/Orders';
+import Delivery from './src/pages/Delivery';
+import Settings from './src/pages/Settings';
+import SignIn from './src/pages/SignIn';
+import SignUp from './src/pages/SignUp';
 
-type HomeScreenProps = NativeStackScreenProps<ParamListBase, 'Home'>;
-type DetailScreenProps = NativeStackScreenProps<ParamListBase, 'Details'>;
+export type LoggedInParamList = {
+  Orders: undefined;
+  Settings: undefined;
+  Delivery: undefined;
+  Complete: {orderId: string};
+};
 
-function HomeScreen({navigation}: HomeScreenProps) {
-  const onClick = useCallback(() => {
-    navigation.navigate('Details');
-  }, [navigation]);
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <TouchableHighlight onPress={onClick}>
-        <Text>Home Screen</Text>
-      </TouchableHighlight>
-    </View>
-  );
-}
-function DetailScreen({navigation}: DetailScreenProps) {
-  const onClick = useCallback(() => {
-    navigation.navigate('Home');
-  }, [navigation]);
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <TouchableHighlight onPress={onClick}>
-        <Text>Home Screen</Text>
-      </TouchableHighlight>
-    </View>
-  );
-}
+export type RootStackParamList = {
+  SignIn: undefined;
+  SignUp: undefined;
+};
 
-const Stack = createNativeStackNavigator();
+export const Tab = createBottomTabNavigator();
+export const Stack = createNativeStackNavigator();
 
-function App(): JSX.Element {
+function App() {
+  const [isLoggedIn, setLoggedIn] = useState(false);
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{title: 'Overview'}}
-        />
-        <Stack.Screen name="Details" component={DetailScreen} />
-      </Stack.Navigator>
+      {isLoggedIn ? (
+        <Tab.Navigator>
+          <Tab.Screen
+            name="Orders"
+            component={Orders}
+            options={{title: '오더 목록'}}
+          />
+          <Tab.Screen
+            name="Delivery"
+            component={Delivery}
+            options={{headerShown: false}}
+          />
+          <Tab.Screen
+            name="Settings"
+            component={Settings}
+            options={{title: '내 정보'}}
+          />
+        </Tab.Navigator>
+      ) : (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="SignIn"
+            component={SignIn}
+            options={{title: '로그인'}}
+          />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUp}
+            options={{title: '회원가입'}}
+          />
+        </Stack.Navigator>
+      )}
     </NavigationContainer>
   );
 }
