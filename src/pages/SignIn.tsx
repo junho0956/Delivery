@@ -1,7 +1,7 @@
-import React, { useCallback, useRef, useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../App";
+import React, {useCallback, useRef, useState} from "react";
+import {Alert, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../../App";
 import DismissKeyboardView from "../components/DismissKeyboardView";
 
 type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
@@ -73,15 +73,15 @@ function SignIn({navigation}: SignInScreenProps) {
       <View style={styles.buttonZone}>
         <Pressable
           onPress={onSubmit}
-          style={!canGoNext ? styles.loginButton : [styles.loginButton, styles.loginButtonActive]}
-          disabled={!canGoNext}
-        >
+          style={
+            !canGoNext
+              ? styles.loginButton
+              : StyleSheet.compose(styles.loginButton, styles.loginButtonActive)
+          }
+          disabled={!canGoNext}>
           <Text style={styles.loginButtonText}>로그인</Text>
         </Pressable>
-        <Pressable
-          onPress={toSignUp}
-          style={styles.signupButton}
-        >
+        <Pressable onPress={toSignUp} style={styles.signupButton}>
           <Text style={styles.signupButtonText}>회원가입</Text>
         </Pressable>
       </View>

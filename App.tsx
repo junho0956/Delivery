@@ -1,7 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from "@react-navigation/native";
 import Orders from './src/pages/Orders';
 import Delivery from './src/pages/Delivery';
 import Settings from './src/pages/Settings';
@@ -20,8 +20,8 @@ export type RootStackParamList = {
   SignUp: undefined;
 };
 
-export const Tab = createBottomTabNavigator();
-export const Stack = createNativeStackNavigator();
+export const Tab = createBottomTabNavigator<LoggedInParamList>();
+export const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
